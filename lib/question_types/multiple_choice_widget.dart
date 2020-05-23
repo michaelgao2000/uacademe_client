@@ -11,9 +11,6 @@ class MultipleChoiceWidget extends StatefulWidget {
 }
 
 class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
-  MultipleChoice mc;
-  _MultipleChoiceWidgetState({this.mc});
-
   String buttonText = 'Submit';
   int _answerChoice;
 
@@ -29,7 +26,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           // question + form
-          Text('${mc.question}', style: TextStyle(fontWeight: FontWeight.bold)),
+          Text('${widget.mc.question}', style: TextStyle(fontWeight: FontWeight.bold)),
           Container(
             padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
             child: Column(
@@ -41,7 +38,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
                         groupValue: _answerChoice,
                         onChanged: _changeAnswerChoice,
                       ),
-                      Text('${mc.answerChoices[0]}'),
+                      Text('${widget.mc.answerChoices[0]}'),
                     ],
                   ),
                   Row(
@@ -51,7 +48,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
                         groupValue: _answerChoice,
                         onChanged: _changeAnswerChoice,
                       ),
-                      Text('${mc.answerChoices[0]}'),
+                      Text('${widget.mc.answerChoices[1]}'),
                     ],
                   ),
                   Row(
@@ -61,7 +58,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
                         groupValue: _answerChoice,
                         onChanged: _changeAnswerChoice,
                       ),
-                      Text('${mc.answerChoices[0]}'),
+                      Text('${widget.mc.answerChoices[2]}'),
                     ],
                   ),
                   Row(
@@ -71,7 +68,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
                         groupValue: _answerChoice,
                         onChanged: _changeAnswerChoice,
                       ),
-                      Text('${mc.answerChoices[0]}'),
+                      Text('${widget.mc.answerChoices[3]}'),
                     ],
                   ),
                 ]
@@ -82,7 +79,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
           RaisedButton(
             onPressed: () {
               setState(() {
-                if(_answerChoice == mc.correctAnswer) {
+                if(_answerChoice == widget.mc.correctAnswer) {
                   buttonText = 'This is correct.';
                 } else {
                   buttonText = 'This is wrong.';

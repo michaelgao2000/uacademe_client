@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:client/question_types/multiple_choice_template.dart';
+import 'package:client/question_types/multiple_choice_widget.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,16 +27,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String buttonText = 'Submit';
-
-  int _answerChoice;
-  int _correctAnswer = 1;
-
-  void _changeAnswerChoice(int value) {
-    setState(() {
-      _answerChoice = value;
-    });
-  }
+  MultipleChoice mc = new MultipleChoice(difficulty: 3,
+      category: "Algebra", question: "5 = x + 3", answerChoices:
+      ["2", "3", "-2", "-3"], correctAnswer: 1);
 
   @override
   Widget build(BuildContext context) {
@@ -45,76 +40,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // question + form
-            Text('Question', style: TextStyle(fontWeight: FontWeight.bold)),
-            Container(
-              padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Radio(
-                        value: 1,
-                        groupValue: _answerChoice,
-                        onChanged: _changeAnswerChoice,
-                      ),
-                      Text('Answer Choice A'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Radio(
-                        value: 2,
-                        groupValue: _answerChoice,
-                        onChanged: _changeAnswerChoice,
-                      ),
-                      Text('Answer Choice B'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Radio(
-                        value: 3,
-                        groupValue: _answerChoice,
-                        onChanged: _changeAnswerChoice,
-                      ),
-                      Text('Answer Choice C'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Radio(
-                        value: 4,
-                        groupValue: _answerChoice,
-                        onChanged: _changeAnswerChoice,
-                      ),
-                      Text('Answer Choice D'),
-                    ],
-                  ),
-                ]
-              ),
-            ),
-
-            // submit
-            RaisedButton(
-              onPressed: () {
-                setState(() {
-                  if(_answerChoice == _correctAnswer) {
-                    buttonText = 'This is correct.';
-                  } else {
-                    buttonText = 'This is wrong.';
-                  }
-                });
-              },
-              child: Text('$buttonText'),
-            )
-          ]
+        child: MultipleChoiceWidget(
+          mc: mc,
+        )
         ),
-      )
-    );
+      );
   }
 }
 
