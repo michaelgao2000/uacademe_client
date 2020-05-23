@@ -48,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            // question + form
             Text('Question', style: TextStyle(fontWeight: FontWeight.bold)),
             Container(
               padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
@@ -96,6 +97,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ]
               ),
             ),
+
+            // submit
             RaisedButton(
               onPressed: () {
                 setState(() {
