@@ -1,6 +1,7 @@
 import 'package:client/models/client_user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:client/screens/home/user_tile.dart';
 
 class UserList extends StatefulWidget {
   @override
@@ -10,12 +11,13 @@ class UserList extends StatefulWidget {
 class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
-    final users = Provider.of<List<ClientUser>>(context);
-    users.forEach((user) {
-      print(user.name);
-      print(user.difficulty.toString());
-    });
+    final users = Provider.of<List<ClientUser>>(context) ?? [];
 
-    return Container();
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return UserTile(user: users[index]);
+      },
+      itemCount: users.length,
+    );
   }
 }

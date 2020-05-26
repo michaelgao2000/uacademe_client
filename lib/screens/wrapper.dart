@@ -9,7 +9,6 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final user = Provider.of<AuthUser>(context);
-    print('in wrapper $user');
 
     if (user == null) {
       return Authenticate();

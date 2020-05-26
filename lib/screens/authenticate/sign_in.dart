@@ -81,6 +81,7 @@ class _SignInState extends State<SignIn> {
                       });
                     }
                     print(result.uid);
+                    setState(() => loading=false);
                   }
                 },
                 color: Colors.red[300],

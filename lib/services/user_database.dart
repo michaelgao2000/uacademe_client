@@ -4,16 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserDatabaseService {
 
   final String uid;
+
   UserDatabaseService({this.uid});
 
-  final CollectionReference userCollection = Firestore.instance.collection("users");
+  final CollectionReference userCollection = Firestore.instance.collection(
+      "users");
 
 
   Future updateUserData(String name, int difficultyLevel) async {
-    print('add data');
-    print(uid);
     return await userCollection.document(uid).setData({
       'name': name,
+      'uid': uid,
       'difficulty': difficultyLevel,
     });
   }
@@ -28,10 +29,24 @@ class UserDatabaseService {
     }).toList();
   }
 
-  // get brews stream
+  // get users stream
   Stream<List<ClientUser>> get users {
     return userCollection.snapshots()
         .map(_clientListFromSnapshot);
   }
 
+  // user from snapshot
+  ClientUser _clientUserFromDocumentSnapshot(DocumentSnapshot snapshot) {
+    return ClientUser(
+        name: snapshot.data['name'] ?? '',
+        uid: snapshot.data['uid'],
+        difficulty: snapshot.data['difficulty'] ?? 5
+    );
+  }
+
+  // get logged-in user stream
+  Stream<ClientUser> get thisUser {
+    return userCollection.document(uid).snapshots()
+        .map(_clientUserFromDocumentSnapshot);
+  }
 }
