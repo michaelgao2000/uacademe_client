@@ -1,7 +1,5 @@
-import 'package:client/screens/authenticate/register.dart';
 import 'package:client/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:client/services/auth.dart';
 import 'package:client/shared/constants.dart';
 import 'package:client/shared/loading.dart';
 
@@ -73,6 +71,7 @@ class _SignInState extends State<SignIn> {
               RaisedButton(
                 onPressed: () async {
                   if(_formKey.currentState.validate()) {
+                    print('$email -- $password');
                     setState(() {loading = true;});
                     dynamic result = await _auth.signInWithEmailAndPassword(email, password);
                     if (result == null) {
@@ -81,6 +80,7 @@ class _SignInState extends State<SignIn> {
                         loading = false;
                       });
                     }
+                    print(result.uid);
                   }
                 },
                 color: Colors.red[300],

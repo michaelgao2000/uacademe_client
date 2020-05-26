@@ -1,5 +1,3 @@
-import 'package:client/models/user.dart';
-import 'package:client/screens/authenticate/sign_in.dart';
 import 'package:client/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:client/shared/constants.dart';

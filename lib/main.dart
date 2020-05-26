@@ -1,11 +1,8 @@
 import 'package:client/screens/wrapper.dart';
 import 'package:client/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:client/screens/wrapper.dart';
-import 'package:client/question_types/multiple_choice_template.dart';
-import 'package:client/question_types/multiple_choice_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:client/models/user.dart';
+import 'package:client/models/auth_user.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +12,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User>.value(
+    return StreamProvider<AuthUser>.value(
       value: AuthService().user,
       child: MaterialApp(
         title: 'Flutter Demo',
