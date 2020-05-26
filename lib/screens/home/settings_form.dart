@@ -1,5 +1,4 @@
-import 'package:client/models/auth_user.dart';
-import 'package:client/models/client_user.dart';
+import 'package:client/models/user.dart';
 import 'package:client/services/user_database.dart';
 import 'package:client/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -20,15 +19,17 @@ class _SettingsFormState extends State<SettingsForm> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<AuthUser>(context);
+    final user = Provider.of<User>(context);
     print('in settings');
     print(user.uid);
-    print(' ');
 
-    return StreamBuilder<ClientUser>(
+    return StreamBuilder<User>(
       stream: UserDatabaseService(uid: user.uid).thisUser,
       builder: (context, snapshot) {
         if(snapshot.hasData == true) {
+          print('in if');
+          print(snapshot.data.uid);
+          print(' ');
           return Form(
             key: _formKey,
             child: Column(
@@ -60,7 +61,7 @@ class _SettingsFormState extends State<SettingsForm> {
                       color: Colors.pink[400],
                       child: Text('Update', style: TextStyle(color: Colors.white)),
                       onPressed: () async {
-                        await UserDatabaseService(uid: snapshot.data.uid).updateUserData(_currentName, _currentDifficulty);
+                        await UserDatabaseService(uid: user.uid).updateUserData(_currentName, _currentDifficulty);
                       }
                   )
                 ]

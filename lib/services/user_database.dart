@@ -1,4 +1,4 @@
-import 'package:client/models/client_user.dart';
+import 'package:client/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserDatabaseService {
@@ -10,19 +10,17 @@ class UserDatabaseService {
   final CollectionReference userCollection = Firestore.instance.collection(
       "users");
 
-
   Future updateUserData(String name, int difficultyLevel) async {
     return await userCollection.document(uid).setData({
       'name': name,
-      'uid': uid,
       'difficulty': difficultyLevel,
     });
   }
 
   // user list from snapshot
-  List<ClientUser> _clientListFromSnapshot(QuerySnapshot snapshot) {
+  List<User> _clientListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
-      return ClientUser(
+      return User(
           name: doc.data['name'] ?? '',
           difficulty: doc.data['difficulty'] ?? 5
       );
@@ -30,14 +28,14 @@ class UserDatabaseService {
   }
 
   // get users stream
-  Stream<List<ClientUser>> get users {
+  Stream<List<User>> get users {
     return userCollection.snapshots()
         .map(_clientListFromSnapshot);
   }
 
   // user from snapshot
-  ClientUser _clientUserFromDocumentSnapshot(DocumentSnapshot snapshot) {
-    return ClientUser(
+  User _userFromDocumentSnapshot(DocumentSnapshot snapshot) {
+    return User(
         name: snapshot.data['name'] ?? '',
         uid: snapshot.data['uid'],
         difficulty: snapshot.data['difficulty'] ?? 5
@@ -45,8 +43,8 @@ class UserDatabaseService {
   }
 
   // get logged-in user stream
-  Stream<ClientUser> get thisUser {
+  Stream<User> get thisUser {
     return userCollection.document(uid).snapshots()
-        .map(_clientUserFromDocumentSnapshot);
+        .map(_userFromDocumentSnapshot);
   }
 }

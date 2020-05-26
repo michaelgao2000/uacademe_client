@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:client/models/client_user.dart';
+import 'package:client/models/user.dart';
 
 class UserTile extends StatelessWidget {
 
-  final ClientUser user;
+  final User user;
   UserTile({this.user});
 
   @override

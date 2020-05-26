@@ -1,18 +1,18 @@
 import 'package:client/services/user_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:client/models/auth_user.dart';
+import 'package:client/models/user.dart';
 
 class AuthService {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // create user obj based on FirebaseUser
-  AuthUser _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? new AuthUser(uid: user.uid) : null;
+  User _userFromFirebaseUser(FirebaseUser user) {
+    return user != null ? new User(uid: user.uid) : null;
   }
 
   // auth change user stream
-  Stream<AuthUser> get user {
+  Stream<User> get user {
     return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
   }
 
@@ -49,7 +49,7 @@ class AuthService {
       FirebaseUser user = result.user;
 
       // make user in database with the uid and pass in default value for difficulty
-      await UserDatabaseService(uid: user.uid).updateUserData("Name", 5);
+      await UserDatabaseService(uid: user.uid).updateUserData("Default Name", 5);
 
       return _userFromFirebaseUser(user);
     } catch(e) {
