@@ -3,7 +3,7 @@ import 'package:client/services/auth.dart';
 import 'package:client/services/user_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:client/screens/home/user_list.dart';
+import 'package:client/screens/users/user_list.dart';
 import 'package:client/models/user.dart';
 
 class Home extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:client/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:client/screens/home/user_tile.dart';
+import 'package:client/screens/users/user_tile.dart';
 
 class UserList extends StatefulWidget {
   @override
