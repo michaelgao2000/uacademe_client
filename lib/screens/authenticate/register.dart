@@ -75,7 +75,6 @@ class _RegisterState extends State<Register> {
                           if (_formKey.currentState.validate()) {
                             setState(() => loading = true);
                             dynamic result = await _auth.registerWithEmailAndPassword(email, password);
-                            print(result);
                             if (result == null) {
                               setState(() {
                                 error = 'Please edit information';

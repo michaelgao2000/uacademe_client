@@ -20,16 +20,11 @@ class _SettingsFormState extends State<SettingsForm> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    print('in settings');
-    print(user.uid);
 
     return StreamBuilder<User>(
       stream: UserDatabaseService(uid: user.uid).thisUser,
       builder: (context, snapshot) {
         if(snapshot.hasData == true) {
-          print('in if');
-          print(snapshot.data.uid);
-          print(' ');
           return Form(
             key: _formKey,
             child: Column(

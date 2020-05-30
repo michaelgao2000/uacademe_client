@@ -71,7 +71,6 @@ class _SignInState extends State<SignIn> {
               RaisedButton(
                 onPressed: () async {
                   if(_formKey.currentState.validate()) {
-                    print('$email -- $password');
                     setState(() {loading = true;});
                     dynamic result = await _auth.signInWithEmailAndPassword(email, password);
                     if (result == null) {
@@ -80,7 +79,6 @@ class _SignInState extends State<SignIn> {
                         loading = false;
                       });
                     }
-                    print(result.uid);
                     setState(() => loading=false);
                   }
                 },
