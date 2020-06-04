@@ -47,4 +47,5 @@ class UserDatabaseService {
     return userCollection.document(uid).snapshots()
         .map(_userFromDocumentSnapshot);
   }
+
 }

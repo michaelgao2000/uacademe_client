@@ -1,5 +1,6 @@
 import 'package:client/question_types/multiple_choice_template.dart';
 import 'package:client/screens/home/home.dart';
+import 'package:client/screens/home/learn_from_mistakes.dart';
 import 'package:flutter/material.dart';
 
 class MultipleChoiceWidget extends StatefulWidget {
@@ -86,12 +87,13 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
               _correctAnswer = widget.mc.correctAnswer;
               setState(() {
                 if(_answerChoice == _correctAnswer) {
+                  _answerChoice = null;
                   _showResult(true);
+                  widget.next();
                 } else {
                   _showResult(false);
+                  widget.next(mistakeCategory: widget.mc.category);
                 }
-                _answerChoice = null;
-                widget.next();
               });
             },
             child: Text('$buttonText'),
@@ -107,7 +109,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
       builder: (BuildContext context) {
         if(result == true){
           return AlertDialog(
-            title: Text('AlertDialog Title'),
+            title: Text('Result'),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
@@ -117,7 +119,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('Approve'),
+                child: Text('Next question'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -126,7 +128,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
           );
         } else {
           return AlertDialog(
-            title: Text('AlertDialog Title'),
+            title: Text('Result'),
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
@@ -136,7 +138,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('Approve'),
+                child: Text('Do more questions of the same type'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
