@@ -1,6 +1,8 @@
+import 'package:client/models/already_asked.dart';
 import 'package:client/question_types/multiple_choice_widget.dart';
 import 'package:client/question_types/multiple_choice_template.dart';
 import 'package:client/services/question_database.dart';
+import 'package:client/services/user_database.dart';
 import 'package:client/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,9 +10,13 @@ import 'package:provider/provider.dart';
 import 'package:client/models/user.dart';
 
 class LearnFromMistakes extends StatefulWidget {
-  final String mistakeCategory;
 
-  LearnFromMistakes({Key key, this.mistakeCategory}) : super(key:key);
+  final String mistakeCategory;
+  final MultipleChoice missedQuestion;
+  final String uid;
+
+  LearnFromMistakes({Key key, this.mistakeCategory, this.uid,
+    this.missedQuestion}) : super(key:key);
 
   @override
   _LearnFromMistakesState createState() => _LearnFromMistakesState();
@@ -24,13 +30,9 @@ class _LearnFromMistakesState extends State<LearnFromMistakes> {
   int index = 0;
   int streak = 0;
 
-
-
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
-    print('learn from mistakes');
-    print(user.toString());
+    AlreadyAskedModel model = AlreadyAskedModel.of(context);
 
     return StreamBuilder(
       stream: QuestionDatabaseService().questionStreamByCategory(widget.mistakeCategory),
@@ -90,15 +92,15 @@ class _LearnFromMistakesState extends State<LearnFromMistakes> {
                       ),
                       RaisedButton.icon(
                           onPressed: () {
-                            return null;
+                            UserDatabaseService(uid: widget.uid).addStrategy(
+                              widget.mistakeCategory, widget.missedQuestion.dbPath,
+                              _mistake, _strategy);
                           },
                           icon: Icon(Icons.send),
                           label: Text('Save strategy')
                       ),
                     ],
                   ),
-
-
                 ),
                 SizedBox(height: 30),
                 MultipleChoiceWidget(

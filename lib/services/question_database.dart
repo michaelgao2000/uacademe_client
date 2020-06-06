@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:client/question_types/multiple_choice_template.dart';
 
@@ -6,14 +7,16 @@ class QuestionDatabaseService {
     collection("questions");
 
   MultipleChoice questionFromSnapshot(DocumentSnapshot question) {
-    return MultipleChoice(
-        question: question.data['question'],
-        answerChoices: [question.data['answera'], question.data['answerb'],
-          question.data['answerc'], question.data['answerd']],
-        correctAnswer: question.data['correct answer'],
-        difficulty: question.data['difficulty'],
-        category: question.data['category'],
-        section: question.data['section']
+    return new MultipleChoice(
+      question: question.data['question'],
+      answerChoices: [question.data['answera'], question.data['answerb'],
+        question.data['answerc'], question.data['answerd']],
+      correctAnswer: question.data['correct answer'],
+      difficulty: question.data['difficulty'],
+      category: question.data['category'],
+      section: question.data['section'],
+      dbPath: question.reference,
+      docId: question.reference.documentID
     );
   }
 

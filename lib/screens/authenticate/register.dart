@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:client/shared/constants.dart';
 import 'package:client/shared/loading.dart';
 
-
 class Register extends StatefulWidget {
   final Function toggleView;
   Register({this.toggleView});

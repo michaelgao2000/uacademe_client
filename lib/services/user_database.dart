@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:client/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -47,5 +49,15 @@ class UserDatabaseService {
     return userCollection.document(uid).snapshots()
         .map(_userFromDocumentSnapshot);
   }
+
+  Future addStrategy(String category, DocumentReference question,
+      String mistake, String strategy) async {
+    return await userCollection.document(uid).collection(category).add({
+      'questionPath': question,
+      'mistake': mistake,
+      'strategy': strategy,
+    });
+  }
+
 
 }
