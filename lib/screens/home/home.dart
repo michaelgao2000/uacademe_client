@@ -1,9 +1,11 @@
+import 'package:client/models/already_asked.dart';
 import 'package:client/question_types/multiple_choice_widget.dart';
 import 'package:client/screens/home/already_asked_manager.dart';
 import 'package:client/screens/home/learn_from_mistakes.dart';
 import 'package:client/services/question_database.dart';
 import 'package:client/shared/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   String uid;
@@ -20,8 +22,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return AlreadyAskedManagerWidget(
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text('Questions')
         ),
@@ -36,8 +37,7 @@ class _HomeState extends State<Home> {
                   (snapshot.data.documents[index]),
                 next: ({String mistakeCategory}) {
                   if(mistakeCategory == null) setState(() => index += 1);
-                  else Navigator.push(
-                    context,
+                  else Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => LearnFromMistakes(
                         mistakeCategory: mistakeCategory,
@@ -52,7 +52,6 @@ class _HomeState extends State<Home> {
             );
           }
         ),
-      ),
     );
   }
 }

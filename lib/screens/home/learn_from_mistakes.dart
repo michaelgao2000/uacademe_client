@@ -32,8 +32,6 @@ class _LearnFromMistakesState extends State<LearnFromMistakes> {
 
   @override
   Widget build(BuildContext context) {
-    AlreadyAskedModel model = AlreadyAskedModel.of(context);
-
     return StreamBuilder(
       stream: QuestionDatabaseService().questionStreamByCategory(widget.mistakeCategory),
       builder: (context, snapshot) {

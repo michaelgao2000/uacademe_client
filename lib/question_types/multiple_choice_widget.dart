@@ -3,6 +3,7 @@ import 'package:client/screens/home/home.dart';
 import 'package:client/screens/home/learn_from_mistakes.dart';
 import 'package:flutter/material.dart';
 import 'package:client/models/already_asked.dart';
+import 'package:provider/provider.dart';
 
 class MultipleChoiceWidget extends StatefulWidget {
 
@@ -29,7 +30,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
 
   @override
   Widget build(BuildContext context) {
-    AlreadyAskedModel model = AlreadyAskedModel.of(context);
+    final model = Provider.of<AlreadyAskedModel>(context, listen: false);
 
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,7 +91,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
               _correctAnswer = widget.mc.correctAnswer;
               setState(() {
                 print('set state');
-                model.alreadyAsked.add(widget.mc.docId);
+                model.add(widget.mc.docId);
                 print('print list');
                 for (String x in model.alreadyAsked) {
                   print(x);

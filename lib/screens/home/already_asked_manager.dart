@@ -25,10 +25,11 @@ class _AlreadyAskedManagerWidgetState extends State<AlreadyAskedManagerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return AlreadyAskedModel(
+    /*return AlreadyAskedModel(
       alreadyAsked: alreadyAsked,
       child: widget.child
-    );
+    );*/
+    return null;
   }
 }
 

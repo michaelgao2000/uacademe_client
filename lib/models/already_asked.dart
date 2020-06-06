@@ -1,6 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
+class AlreadyAskedModel with ChangeNotifier {
+  var _alreadyAsked = List();
+
+  List get alreadyAsked => _alreadyAsked;
+
+  void add (String id) {
+    _alreadyAsked.add(id);
+    notifyListeners();
+  }
+
+}
+
+/*
 class AlreadyAskedModel extends InheritedModel<String> {
   var alreadyAsked = List();
 
@@ -20,7 +33,7 @@ class AlreadyAskedModel extends InheritedModel<String> {
     return InheritedModel.inheritFrom<AlreadyAskedModel>(context, aspect: aspect);
   }
 
-}
+}*/
 
 /* TODO use inheritedmodel to have a list of already
     asked questions that all widgets (learning form mistakes
