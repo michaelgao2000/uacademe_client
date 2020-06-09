@@ -32,6 +32,9 @@ class _LearnFromMistakesState extends State<LearnFromMistakes> {
 
   @override
   Widget build(BuildContext context) {
+
+    final model = Provider.of<AlreadyAskedModel>(context, listen: false);
+
     return StreamBuilder(
       stream: QuestionDatabaseService().questionStreamByCategory(widget.mistakeCategory),
       builder: (context, snapshot) {
@@ -105,16 +108,22 @@ class _LearnFromMistakesState extends State<LearnFromMistakes> {
                     mc: QuestionDatabaseService().questionFromSnapshot
                       (snapshot.data.documents[index]),
                     next: ({String mistakeCategory}) {
-                      print(mistakeCategory);
+                      int add = 0;
+                      for(int x in model.alreadyAsked) {
+                        if(QuestionDatabaseService().questionFromSnapshot
+                          (snapshot.data.documents[index]).docId == x) {
+                          add = 2;
+                        } else add = 1;
+                      }
                       if(mistakeCategory != null)
                         setState(() => streak = 0);
                       else
                         setState(() => streak += 1);
 
                       if ((index + 1) < snapshot.data.documents.length)
-                        setState(() => index += 1);
+                        setState(() => index += add);
                       else
-                        // TODO if we are out of questions, what do we do
+                        // TODO add null check if index is out of bounds (out of questions)
                         print('out of questions');
                     }
                   ),

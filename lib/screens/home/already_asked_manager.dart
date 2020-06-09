@@ -19,7 +19,7 @@ class _AlreadyAskedManagerWidgetState extends State<AlreadyAskedManagerWidget> {
     alreadyAsked = List();
   }
 
-  void addQuestion(String id) {
+  void addQuestion(int id) {
     setState(() => alreadyAsked.add(id));
   }
 

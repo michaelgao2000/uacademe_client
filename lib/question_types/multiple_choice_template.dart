@@ -12,7 +12,7 @@ class MultipleChoice {
   int correctAnswer;
 
   DocumentReference dbPath;
-  String docId;
+  int docId;
 
   MultipleChoice({this.question, this.answerChoices, this.correctAnswer,
     this.difficulty, this.category, this.section, this.dbPath, this.docId});

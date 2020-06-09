@@ -6,7 +6,7 @@ class AlreadyAskedModel with ChangeNotifier {
 
   List get alreadyAsked => _alreadyAsked;
 
-  void add (String id) {
+  void add (int id) {
     _alreadyAsked.add(id);
     notifyListeners();
   }

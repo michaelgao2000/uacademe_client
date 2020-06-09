@@ -22,6 +22,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final model = Provider.of<AlreadyAskedModel>(context, listen: false);
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Questions')
@@ -36,8 +38,16 @@ class _HomeState extends State<Home> {
                 mc: QuestionDatabaseService().questionFromSnapshot
                   (snapshot.data.documents[index]),
                 next: ({String mistakeCategory}) {
-                  if(mistakeCategory == null) setState(() => index += 1);
-                  else Navigator.of(context).push(
+                  // TODO IDEA add no reptition (or do it in the questionDB stream??)
+                  if(mistakeCategory == null) {
+                    for(int x in model.alreadyAsked) {
+                      if(QuestionDatabaseService().questionFromSnapshot
+                        (snapshot.data.documents[index]).docId == x) {
+                        setState(() => index += 2);
+                      }
+                    }
+                    setState(() => index += 1);
+                  } else Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => LearnFromMistakes(
                         mistakeCategory: mistakeCategory,

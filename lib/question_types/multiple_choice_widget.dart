@@ -93,8 +93,8 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
                 print('set state');
                 model.add(widget.mc.docId);
                 print('print list');
-                for (String x in model.alreadyAsked) {
-                  print(x);
+                for (int x in model.alreadyAsked) {
+                  print(x.toString());
                 }
 
                 if(_answerChoice == _correctAnswer) {

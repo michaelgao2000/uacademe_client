@@ -2,6 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:client/question_types/multiple_choice_template.dart';
 
+// TODO no duplicates
+
 class QuestionDatabaseService {
   final CollectionReference questionCollection = Firestore.instance.
     collection("questions");
@@ -16,7 +18,7 @@ class QuestionDatabaseService {
       category: question.data['category'],
       section: question.data['section'],
       dbPath: question.reference,
-      docId: question.reference.documentID
+      docId: question.data['id']
     );
   }
 
