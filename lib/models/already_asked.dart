@@ -3,12 +3,33 @@ import 'package:flutter/foundation.dart';
 
 class AlreadyAskedModel with ChangeNotifier {
   var _alreadyAsked = List();
+  int startingPoint = 0;
 
   List get alreadyAsked => _alreadyAsked;
 
   void add (int id) {
-    _alreadyAsked.add(id);
-    notifyListeners();
+    if (!alreadyAsked.contains(id)) {
+      _alreadyAsked.add(id);
+      _alreadyAsked.sort();
+      notifyListeners();
+    }
+  }
+
+  int nextQuestion () {
+    for(int i = 0; i <_alreadyAsked.length - 1; i++) {
+      if((_alreadyAsked[i] + 1) != (_alreadyAsked[i + 1])) {
+        return _alreadyAsked[i] + 1;
+      }
+    }
+    return(_alreadyAsked[_alreadyAsked.length-1] + 1);
+  }
+
+  bool hasAsked(int id) {
+    if(_alreadyAsked.contains(id)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
@@ -34,7 +55,3 @@ class AlreadyAskedModel extends InheritedModel<String> {
   }
 
 }*/
-
-/* TODO use inheritedmodel to have a list of already
-    asked questions that all widgets (learning form mistakes
-    and home can see */

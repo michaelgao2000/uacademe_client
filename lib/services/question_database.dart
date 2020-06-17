@@ -1,4 +1,4 @@
-
+import 'package:client/models/already_asked.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:client/question_types/multiple_choice_template.dart';
 
@@ -7,6 +7,14 @@ import 'package:client/question_types/multiple_choice_template.dart';
 class QuestionDatabaseService {
   final CollectionReference questionCollection = Firestore.instance.
     collection("questions");
+
+  AlreadyAskedModel model;
+
+  QuestionDatabaseService({this.model});
+
+  MultipleChoice getRandomQuestion() {
+
+  }
 
   MultipleChoice questionFromSnapshot(DocumentSnapshot question) {
     return new MultipleChoice(

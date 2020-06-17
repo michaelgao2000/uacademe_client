@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:client/models/user.dart';
+import 'package:client/services/auth.dart';
+
 
 class LearnFromMistakes extends StatefulWidget {
 
@@ -29,19 +31,57 @@ class _LearnFromMistakesState extends State<LearnFromMistakes> {
 
   int index = 0;
   int streak = 0;
+  bool first = true;
 
   @override
   Widget build(BuildContext context) {
+
+    print(' ');
+    print('in mistakes');
 
     final model = Provider.of<AlreadyAskedModel>(context, listen: false);
 
     return StreamBuilder(
       stream: QuestionDatabaseService().questionStreamByCategory(widget.mistakeCategory),
-      builder: (context, snapshot) {
-        if (snapshot.data != null) {
+      builder: (buildContext, snapshot) {
+          if (snapshot.data != null) {
+            // find what the first question should be
+            // remember that index no longer is the same as id because there is a category filter
+            if (first) {
+              for (int i = 0; i < snapshot.data.documents.length; i++) {
+              if (model.hasAsked(QuestionDatabaseService()
+                  .questionFromSnapshot(snapshot.data.documents[i])
+                  .docId)) {
+                print(QuestionDatabaseService()
+                    .questionFromSnapshot(snapshot.data.documents[i])
+                    .docId);
+                continue;
+              } else {
+                index = i;
+                first = false;
+                break;
+              }
+              index = 0;
+              print('question DNE');
+            }
+              first = false;
+            print('starting index for the category $index');
+          }
+
+
           return Scaffold(
           appBar: AppBar(
-            title: Text('Do more questions about ${widget.mistakeCategory}')
+            title: Text('Do more questions about ${widget.mistakeCategory}'),
+            actions: <Widget> [
+              FlatButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      AuthService().signOut();
+                    });
+                  },
+                  icon: Icon(Icons.person),
+                  label: Text('Sign Out'))
+            ]
           ),
 
           /* strategies they have from the question screen
@@ -107,24 +147,46 @@ class _LearnFromMistakesState extends State<LearnFromMistakes> {
                 MultipleChoiceWidget(
                     mc: QuestionDatabaseService().questionFromSnapshot
                       (snapshot.data.documents[index]),
-                    next: ({String mistakeCategory}) {
-                      int add = 0;
+                    next: ({String mistakeCategory}) async {
+                      if(mistakeCategory != null)
+                        setState(() => streak = 0);
+                      else
+                        setState(() => streak += 1);
+
+                      if (index + 1 == snapshot.data.documents.length) {
+                        print('out of questions');
+                        Navigator.pop(buildContext);
+                        Navigator.pop(context);
+                      }
+
+                      if (index < snapshot.data.documents.length) {
+                        int remainingQuestions = snapshot.data.documents.length - index;
+                        for (int i = 0; i < remainingQuestions; i++) {
+                          if(!model.hasAsked(QuestionDatabaseService().questionFromSnapshot
+                            (snapshot.data.documents[index + i]).docId)) {
+                            setState(() { index = index + i; print('next category index $index');});
+                            break;
+                          }
+                        }
+                      }
+
+
+                      /* int add = 0;
                       for(int x in model.alreadyAsked) {
                         if(QuestionDatabaseService().questionFromSnapshot
                           (snapshot.data.documents[index]).docId == x) {
                           add = 2;
                         } else add = 1;
                       }
-                      if(mistakeCategory != null)
-                        setState(() => streak = 0);
-                      else
-                        setState(() => streak += 1);
 
-                      if ((index + 1) < snapshot.data.documents.length)
+                      if ((index + add) < snapshot.data.documents.length - 1)
                         setState(() => index += add);
-                      else
-                        // TODO add null check if index is out of bounds (out of questions)
+                      else {
+                        print(context.toString());
                         print('out of questions');
+                        Navigator.pop(buildContext);
+                        Navigator.pop(context);
+                      } */
                     }
                   ),
                 Row(
@@ -148,4 +210,33 @@ class _LearnFromMistakesState extends State<LearnFromMistakes> {
       }
     );
   }
+
+  Future<void> _noMoreQuestions() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('No More Questions'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('You ran out of questions.'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Go back to home'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        }
+    );
+  }
 }
+
+

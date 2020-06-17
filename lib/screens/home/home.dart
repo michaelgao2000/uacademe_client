@@ -2,6 +2,7 @@ import 'package:client/models/already_asked.dart';
 import 'package:client/question_types/multiple_choice_widget.dart';
 import 'package:client/screens/home/already_asked_manager.dart';
 import 'package:client/screens/home/learn_from_mistakes.dart';
+import 'package:client/services/auth.dart';
 import 'package:client/services/question_database.dart';
 import 'package:client/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +23,24 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    print(' ');
+    print('in home');
+
     final model = Provider.of<AlreadyAskedModel>(context, listen: false);
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Questions')
+          title: Text('Questions'),
+          actions: <Widget> [
+            FlatButton.icon(
+                onPressed: () {
+                  setState(() {
+                    AuthService().signOut();
+                  });
+                },
+                icon: Icon(Icons.person),
+                label: Text('Register'))
+          ]
         ),
         body: StreamBuilder(
           stream: QuestionDatabaseService().questionStream,
@@ -38,23 +52,20 @@ class _HomeState extends State<Home> {
                 mc: QuestionDatabaseService().questionFromSnapshot
                   (snapshot.data.documents[index]),
                 next: ({String mistakeCategory}) {
-                  // TODO IDEA add no reptition (or do it in the questionDB stream??)
-                  if(mistakeCategory == null) {
-                    for(int x in model.alreadyAsked) {
-                      if(QuestionDatabaseService().questionFromSnapshot
-                        (snapshot.data.documents[index]).docId == x) {
-                        setState(() => index += 2);
-                      }
-                    }
-                    setState(() => index += 1);
-                  } else Navigator.of(context).push(
+                  print('next question is ${model.nextQuestion()}');
+                  if (mistakeCategory == null) {
+                    setState(() {index = model.nextQuestion();});
+                  }
+                  else Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => LearnFromMistakes(
+                      builder: (context) {                       print('index $index');
+                      return LearnFromMistakes(
                         mistakeCategory: mistakeCategory,
                         missedQuestion: QuestionDatabaseService()
                             .questionFromSnapshot(snapshot.data.documents[index]),
                         uid: widget.uid,
-                      )
+                      );
+                      }
                     )
                   );
                 }

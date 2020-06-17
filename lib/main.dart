@@ -26,7 +26,12 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: StreamBuilder(
+        routes: {
+          '/home': (context) => Home()
+        },
+        home: Home(uid: 'Xk6n8uemIkQDbMzr9U5Abhkm4B13' )
+
+        /* StreamBuilder(
           stream: AuthService().user,
           builder: (context, snapshot) {
             if (snapshot.data == null) {
@@ -37,7 +42,7 @@ class MyApp extends StatelessWidget {
               return Home(uid: snapshot.data.uid);
             }
           },
-        ),
+        ), */
       ),
     );
 

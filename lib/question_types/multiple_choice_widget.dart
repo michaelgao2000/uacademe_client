@@ -90,7 +90,6 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
             onPressed: () {
               _correctAnswer = widget.mc.correctAnswer;
               setState(() {
-                print('set state');
                 model.add(widget.mc.docId);
                 print('print list');
                 for (int x in model.alreadyAsked) {
